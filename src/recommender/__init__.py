@@ -1,0 +1,1 @@
+from src.recommender.routes import recommender_blueprint
