@@ -1,0 +1,1 @@
+from src.item.routes import item_blueprint
