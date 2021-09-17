@@ -38,4 +38,8 @@ def recommendation():
 
     recommended_user_knn = user_knn.recommend(user_id, 2)
 
-    return movies_data.loc[recommended_user_knn[0][0]].to_dict()
+    recommended = movies_data.loc[recommended_user_knn[0][0]].to_dict()
+
+    recommended["movie_id"] = recommended_user_knn[0][0]
+
+    return recommended
