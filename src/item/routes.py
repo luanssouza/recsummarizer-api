@@ -11,4 +11,8 @@ def search():
 
     movies_data = pd.read_csv(movies_file)
 
-    return jsonify(movies_data[movies_data['title'].str.contains(title)].to_dict(orient='records'))
+    movies_data_titles = movies_data['title'].str.lower()
+
+    movies_data_titles = movies_data_titles.str.contains(title.lower())
+
+    return jsonify(movies_data[movies_data_titles].to_dict(orient='records'))
