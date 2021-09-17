@@ -1,8 +1,8 @@
 from flask import Blueprint, request
-from src.recommender.collaborative import UserKnn
-
 import pandas as pd
 import numpy as np
+
+from src.recommender.collaborative import UserKnn
 
 recommender_blueprint = Blueprint('recommender', __name__)
 
@@ -20,14 +20,17 @@ def recommendation():
 
     movies_file = ''
 
-    movies_data = pd.read_csv(movies_file)
+    movies_data = pd.read_csv(movies_file, index_col="movie_id")
 
     user_id = train['user_id'].max()+1
 
     user_interactions = data
 
     for interaction in user_interactions:
-        interaction['user_id'] = user_id    
+        interaction['user_id'] = user_id
+        interaction['movie_id'] = int(interaction['movie_id'])
+        interaction['rating'] = float(interaction['rating'])
+
 
     train = train.append(user_interactions, ignore_index = True)
 
