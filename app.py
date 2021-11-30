@@ -3,7 +3,6 @@ from flask_cors import CORS
 
 # App Modules
 from src.error import error_blueprint
-from src.resources import resources_blueprint
 from src.recommender import recommender_blueprint
 from src.summarizer import summarizer_blueprint
 from src.item import item_blueprint
@@ -17,7 +16,6 @@ def hello():
 
 app.register_blueprint(error_blueprint)
 
-app.register_blueprint(resources_blueprint, url_prefix='/resources')
 app.register_blueprint(recommender_blueprint, url_prefix='/recommender')
 app.register_blueprint(summarizer_blueprint, url_prefix='/summarizer')
 app.register_blueprint(item_blueprint, url_prefix='/item')

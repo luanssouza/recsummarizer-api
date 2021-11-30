@@ -1,1 +1,0 @@
-from src.resources.routes import resources_blueprint
