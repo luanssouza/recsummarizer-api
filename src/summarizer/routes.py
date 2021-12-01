@@ -15,6 +15,16 @@ def explain():
 
     return { 'explanation': explanation }
 
+@summarizer_blueprint.route('/baseline', methods=['POST'])
+def baseline():
+    data = request.json
+
+    explanations_path = environ['EXPLANATIONS_BASELINE']
+
+    explanation = open(f'{explanations_path}{data["movie_id"]}.txt', 'r').read()
+
+    return { 'explanation': explanation }
+
 @summarizer_blueprint.route('/summarize', methods=['POST'])
 def summarize():
     data = request.json
