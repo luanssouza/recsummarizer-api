@@ -1,14 +1,14 @@
 from flask import Blueprint, request, jsonify
-import pandas as pd
+from os import environ
+
+import src.utils.bucket as bc
 
 item_blueprint = Blueprint('item', __name__)
 
 @item_blueprint.route('/', methods=['GET'])
 def init():
 
-    movies_file = ''
-
-    movies_data = pd.read_csv(movies_file)
+    movies_data = bc.read_csv(environ['MOVIES_FILE'])
 
     return jsonify(movies_data.sample(n=9).to_dict(orient='records'))
 
@@ -16,9 +16,7 @@ def init():
 def search():
     title = request.args.get('title')
 
-    movies_file = ''
-
-    movies_data = pd.read_csv(movies_file)
+    movies_data = bc.read_csv(environ['MOVIES_FILE'])
 
     movies_data_titles = movies_data['title'].str.lower()
 

@@ -1,7 +1,7 @@
 from flask import Blueprint, request
-import pandas as pd
-import numpy as np
+from os import environ
 
+import src.utils.bucket as bc
 from src.recommender.collaborative import UserKnn
 
 recommender_blueprint = Blueprint('recommender', __name__)
@@ -10,17 +10,13 @@ recommender_blueprint = Blueprint('recommender', __name__)
 def recommendation():
     data = request.json
 
-    train_file = ''
-
     names = ['user_id', 'movie_id', 'rating']
     header = None
     sep = "\t"
 
-    train = pd.read_csv(train_file, header = header, names = names, sep=sep)
+    train = bc.read_csv(environ['RATINGS_FILE'], header = header, names = names, sep=sep)
 
-    movies_file = ''
-
-    movies_data = pd.read_csv(movies_file, index_col="movie_id")
+    movies_data = bc.read_csv(environ['MOVIES_FILE'], index_col="movie_id")
 
     user_id = train['user_id'].max()+1
 
