@@ -1,6 +1,5 @@
 from flask import Blueprint, request
-import pandas as pd
-import numpy as np
+from os import environ
 
 from src.summarizer.proposal import SummarizerClusters
 
@@ -10,10 +9,20 @@ summarizer_blueprint = Blueprint('summarizer', __name__)
 def explain():
     data = request.json
 
+    explanations_path = environ['EXPLANATIONS']
+
+    explanation = open(f'{explanations_path}{data["movie_id"]}/{data["n_clusters"]}.txt', 'r').read()
+
+    return { 'explanation': explanation }
+
+@summarizer_blueprint.route('/summarize', methods=['POST'])
+def summarize():
+    data = request.json
+
     sentences_path_bert = ''
 
     summarizer_bert = SummarizerClusters(sentences_path_bert)
 
-    explanation = " ".join(summarizer_bert.summarize(data['movie_id'], data['n_clusters']))
+    explanation = " ".join(summarizer_bert.summarize(int(data['movie_id']), int(data['n_clusters'])))
 
     return { "explanation": explanation }
