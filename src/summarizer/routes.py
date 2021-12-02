@@ -1,3 +1,4 @@
+import pandas as pd
 from flask import Blueprint, request
 from os import environ
 
@@ -9,9 +10,11 @@ summarizer_blueprint = Blueprint('summarizer', __name__)
 def explain():
     data = request.json
 
-    explanations_path = environ['EXPLANATIONS']
+    explanations = environ['EXPLANATIONS']
 
-    explanation = open(f'{explanations_path}{data["movie_id"]}/{data["n_clusters"]}.txt', 'r').read()
+    exp_df = pd.read_csv(explanations, index_col = 'movie_id')
+    
+    explanation = exp_df.loc[data['movie_id']][data['n_clusters']]
 
     return { 'explanation': explanation }
 
@@ -19,9 +22,11 @@ def explain():
 def baseline():
     data = request.json
 
-    explanations_path = environ['EXPLANATIONS_BASELINE']
+    explanations = environ['EXPLANATIONS_BASELINE']
 
-    explanation = open(f'{explanations_path}{data["movie_id"]}.txt', 'r').read()
+    exp_df = pd.read_csv(explanations, index_col = 'movie_id')
+
+    explanation = exp_df.loc[data['movie_id']]['summary']
 
     return { 'explanation': explanation }
 
