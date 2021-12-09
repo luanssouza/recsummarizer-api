@@ -1,8 +1,11 @@
+import numpy as np
 import pandas as pd
 from flask import Blueprint, request
 from os import environ
 
 from src.summarizer.proposal import SummarizerClusters
+
+from .proposal.summarizer_clusters_semantic import SummarizerClustersSemantic
 
 summarizer_blueprint = Blueprint('summarizer', __name__)
 
@@ -34,10 +37,25 @@ def baseline():
 def summarize():
     data = request.json
 
-    sentences_path_bert = ''
+    movie_id = int(data['movie_id'])
+    n_clusters = int(data['n_clusters'])
 
-    summarizer_bert = SummarizerClusters(sentences_path_bert)
+    sentences_path_bert = environ['EXPLANATIONS_FILES']
 
-    explanation = " ".join(summarizer_bert.summarize(int(data['movie_id']), int(data['n_clusters'])))
+    summary = ''
 
-    return { "explanation": explanation }
+    if data['rates']:
+        user_itens = [d['movie_id'] for d in data['rates']]
+
+        asp_cen = sum([np.load(f'./data/centroids/{i}_centroid.npy') for i in user_itens])
+
+        summarizer_bert = SummarizerClustersSemantic(sentences_path_bert, 0.9, 5)
+
+        summary = summarizer_bert.summarize(movie_id, n_clusters, asp_cen)
+
+    else:
+        summarizer_bert = SummarizerClusters(sentences_path_bert)
+
+        summary = summarizer_bert.summarize(movie_id, n_clusters)
+
+    return { "explanation": ' '.join(summary) }
