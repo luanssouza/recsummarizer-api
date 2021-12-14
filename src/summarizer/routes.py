@@ -7,6 +7,8 @@ from src.summarizer.proposal import SummarizerClusters
 
 from .proposal.summarizer_clusters_semantic import SummarizerClustersSemantic
 
+from ..utils.bucket import read_numpy
+
 summarizer_blueprint = Blueprint('summarizer', __name__)
 
 @summarizer_blueprint.route('/explain', methods=['POST'])
@@ -47,7 +49,7 @@ def summarize():
     if data['rates']:
         user_itens = [d['movie_id'] for d in data['rates']]
 
-        asp_cen = sum([np.load(f'./data/centroids/{i}_centroid.npy') for i in user_itens])
+        asp_cen = sum([read_numpy(f'{environ["MOVIE_CENTROIDS"]}/{i}_centroid.npy') for i in user_itens])
 
         summarizer_bert = SummarizerClustersSemantic(sentences_path_bert, 0.9, 5)
 
