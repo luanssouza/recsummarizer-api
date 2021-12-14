@@ -3,6 +3,8 @@ import numpy as np
 from .item import Item
 from .summarizer import Summarizer
 
+from ...utils.bucket import read_numpy
+
 class SummarizerClusters(Summarizer):
     def __init__(self, items_path, discard_threshold, number_of_sentences_in_summary):
         super().__init__(items_path, discard_threshold, number_of_sentences_in_summary)
@@ -11,7 +13,7 @@ class SummarizerClusters(Summarizer):
         
         try:
             item = super()._get_item(item_dir)
-            item.clusters = np.load(item_dir + "/clusters.npy")
+            item.clusters = read_numpy(item_dir + "/clusters.npy")
             return item
         except:
             return None

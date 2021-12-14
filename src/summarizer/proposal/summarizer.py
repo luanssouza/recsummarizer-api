@@ -3,6 +3,8 @@ import numpy as np
 
 from .item import Item
 
+from ...utils.bucket import read_csv, read_numpy
+
 class Summarizer(object):
     def __init__(self, items_path, discard_threshold, number_of_sentences_in_summary):
         self._items_path = items_path
@@ -15,13 +17,13 @@ class Summarizer(object):
     def _get_item(self, item_dir: str) -> Item:
         
         try:
-            centroid = np.load(item_dir + "/centroid.npy")
+            centroid = read_numpy(item_dir + "/centroid.npy")
 
-            aspects_df = pd.read_csv(item_dir + "/aspects.csv")
+            aspects_df = read_csv(item_dir + "/aspects.csv")
 
-            sentences_df = pd.read_csv(item_dir + "/filtered_sentences.csv")
+            sentences_df = read_csv(item_dir + "/filtered_sentences.csv")
 
-            sentences_df['embeddings'] = pd.read_csv(item_dir + "/embeddings_sentences.csv").values.tolist()
+            sentences_df['embeddings'] = read_csv(item_dir + "/embeddings_sentences.csv").values.tolist()
 
             return Item(centroid, aspects_df, sentences_df)
         except:

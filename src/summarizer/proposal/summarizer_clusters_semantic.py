@@ -4,6 +4,8 @@ from scipy import cluster
 
 from .summarizer_clusters import SummarizerClusters
 
+from ...utils.bucket import read_csv
+
 class SummarizerClustersSemantic(SummarizerClusters):
     def __init__(self, items_path, discard_threshold, number_of_sentences_in_summary):
         super().__init__(items_path, discard_threshold, number_of_sentences_in_summary)
@@ -14,7 +16,7 @@ class SummarizerClustersSemantic(SummarizerClusters):
         if not item:
             return []
 
-        embeddings_asp = pd.read_csv(f'{item_dir}/embeddings_aspects.csv')
+        embeddings_asp = read_csv(f'{item_dir}/embeddings_aspects.csv')
 
         for i, row in embeddings_asp.iterrows():
             embeddings_asp['embedding'][i] = np.fromstring(row['embedding'][1:-1], sep=', ')
