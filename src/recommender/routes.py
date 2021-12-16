@@ -4,6 +4,8 @@ from os import environ
 import src.utils.bucket as bc
 from src.recommender.collaborative import UserKnn
 
+from ..services.recommendation_service import insert_recommendation_dict
+
 recommender_blueprint = Blueprint('recommender', __name__)
 
 @recommender_blueprint.route('/recommendation', methods=['POST'])
@@ -20,13 +22,14 @@ def recommendation():
 
     user_id = train['user_id'].max()+1
 
-    user_interactions = data
+    user_interactions = []
 
-    for interaction in user_interactions:
+    for rate in data['rates']:
+        interaction = {}
         interaction['user_id'] = user_id
-        interaction['movie_id'] = int(interaction['movie_id'])
-        interaction['rating'] = float(interaction['rating'])
-
+        interaction['movie_id'] = int(rate['movie_id'])
+        interaction['rating'] = float(rate['rating'])
+        user_interactions.append(interaction)
 
     train = train.append(user_interactions, ignore_index = True)
 
@@ -37,5 +40,9 @@ def recommendation():
     recommended = movies_data.loc[recommended_user_knn[0][0]].to_dict()
 
     recommended["movie_id"] = recommended_user_knn[0][0]
+
+    data['movie_id'] = recommended["movie_id"]
+
+    insert_recommendation_dict(data)
 
     return recommended

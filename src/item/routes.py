@@ -3,7 +3,16 @@ from os import environ
 
 import src.utils.bucket as bc
 
+from ..services.user_service import insert_user_dict
+
 item_blueprint = Blueprint('item', __name__)
+
+@item_blueprint.route('/user', methods=['POST'])
+def teste():
+
+    data = request.json
+
+    return { 'user_id': insert_user_dict(data['user']) }
 
 @item_blueprint.route('/', methods=['GET'])
 def init():

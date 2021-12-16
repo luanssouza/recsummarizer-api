@@ -7,6 +7,9 @@ from src.summarizer.proposal import SummarizerClusters
 
 from .proposal.summarizer_clusters_semantic import SummarizerClustersSemantic
 
+from ..services.compare_service import insert_compare_dict
+from ..services.explanation_service import insert_explanation_dict
+
 from ..utils.bucket import read_numpy
 
 summarizer_blueprint = Blueprint('summarizer', __name__)
@@ -61,3 +64,19 @@ def summarize():
         summary = summarizer_bert.summarize(movie_id, n_clusters)
 
     return { "explanation": ' '.join(summary) }
+
+@summarizer_blueprint.route('/evaluation', methods=['POST'])
+def evaluation():
+    data = request.json
+
+    insert_explanation_dict(data['evaluation'])
+
+    return {"message": "created"}, 201
+
+@summarizer_blueprint.route('/compare', methods=['POST'])
+def compare():
+    data = request.json
+
+    insert_compare_dict(data['compare'])
+
+    return {"message": "created"}, 201
