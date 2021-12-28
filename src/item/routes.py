@@ -19,7 +19,15 @@ def init():
 
     movies_data = bc.read_csv(environ['MOVIES_FILE'])
 
-    return jsonify(movies_data.sample(n=9).to_dict(orient='records'))
+    return jsonify(movies_data.sample(n=12).to_dict(orient='records'))
+
+@item_blueprint.route('/year', methods=['GET'])
+def year():
+
+    movies_data = bc.read_csv(environ['MOVIES_FILE'])
+
+    return jsonify(movies_data['year'].unique().tolist())
+
 
 @item_blueprint.route('/search', methods=['GET'])
 def search():
