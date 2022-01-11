@@ -32,8 +32,14 @@ def year():
 @item_blueprint.route('/search', methods=['GET'])
 def search():
     title = request.args.get('title')
+    year = request.args.get('year')
 
     movies_data = bc.read_csv(environ['MOVIES_FILE'])
+    
+    movies_data = movies_data.fillna("")
+
+    if year:
+        movies_data =  movies_data.loc[movies_data['year'] == int(year)]
 
     movies_data_titles = movies_data['title'].str.lower()
 
