@@ -9,14 +9,14 @@ class Compare(Base):
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     movie_id = Column(Integer, nullable=False)
     understood = Column(SmallInteger, nullable=False)
-    convincing = Column(SmallInteger, nullable=False)
-    discover = Column(SmallInteger, nullable=False)
-    trust = Column(SmallInteger, nullable=False)
+    useful = Column(SmallInteger, nullable=False)
+    interest = Column(SmallInteger, nullable=False)
+    preferences = Column(SmallInteger, nullable=False)
     
-    def __init__(self, user_id, movie_id, understood, convincing, discover, trust):
+    def __init__(self, user_id, movie_id, understood, useful, interest, preferences):
         self.user_id = user_id
         self.movie_id = movie_id
         self.understood = understood
-        self.convincing = convincing
-        self.discover = discover
-        self.trust = trust
+        self.useful = useful
+        self.interest = interest
+        self.preferences = preferences

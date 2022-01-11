@@ -11,16 +11,16 @@ class Explanation(Base):
     liked = Column(SmallInteger, nullable=False)
     understood = Column(SmallInteger, nullable=False)
     interest = Column(SmallInteger, nullable=False)
-    discover = Column(SmallInteger, nullable=False)
-    levelDiscover = Column(SmallInteger, nullable=False)
+    useful = Column(SmallInteger, nullable=False)
+    preferences = Column(SmallInteger, nullable=False)
     levelFit = Column(SmallInteger, nullable=False)
     
-    def __init__(self, user_id, movie_id, liked, understood, interest, discover, levelDiscover, levelFit):
+    def __init__(self, user_id, movie_id, liked, understood, interest, useful, preferences, levelFit):
         self.user_id = user_id
         self.movie_id = movie_id
         self.liked = liked
         self.understood = understood
         self.interest = interest
-        self.discover = discover
-        self.levelDiscover = levelDiscover
+        self.useful = useful
+        self.preferences = preferences
         self.levelFit = levelFit
