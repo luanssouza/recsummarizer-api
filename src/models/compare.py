@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, SmallInteger, ForeignKey
+from sqlalchemy import Column, DateTime, Integer, SmallInteger, ForeignKey, func
 
 from ..utils.database import Base
 
@@ -12,6 +12,7 @@ class Compare(Base):
     useful = Column(SmallInteger, nullable=False)
     interest = Column(SmallInteger, nullable=False)
     preferences = Column(SmallInteger, nullable=False)
+    created = Column(DateTime(timezone=True), default=func.now())
     
     def __init__(self, user_id, movie_id, understood, useful, interest, preferences):
         self.user_id = user_id

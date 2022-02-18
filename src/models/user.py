@@ -1,4 +1,5 @@
-from sqlalchemy import Column, Integer, Boolean, SmallInteger
+from sqlalchemy import Column, DateTime, Integer, Boolean, SmallInteger
+from sqlalchemy.sql import func
 
 from ..utils.database import Base
 
@@ -11,6 +12,7 @@ class User(Base):
     gender = Column(SmallInteger)
     education = Column(SmallInteger)
     recommender = Column(SmallInteger)
+    created = Column(DateTime(timezone=True), default=func.now())
 
     def __init__(self, accept, age, gender, education, recommender):
         self.accept = accept
