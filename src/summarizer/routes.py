@@ -9,6 +9,7 @@ from .proposal.summarizer_clusters_semantic import SummarizerClustersSemantic
 
 from ..services.compare_service import insert_compare_dict
 from ..services.explanation_service import insert_explanation_dict
+from ..services.tries_service import insert_tries_dict
 
 from ..utils.bucket import read_numpy
 
@@ -70,6 +71,14 @@ def evaluation():
     data = request.json
 
     insert_explanation_dict(data['evaluation'])
+
+    return {"message": "created"}, 201
+
+@summarizer_blueprint.route('/tries', methods=['POST'])
+def tries():
+    data = request.json
+
+    insert_tries_dict(data['tries'])
 
     return {"message": "created"}, 201
 
