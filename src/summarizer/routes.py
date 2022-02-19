@@ -3,6 +3,7 @@ import pandas as pd
 from flask import Blueprint, request
 from os import environ
 
+
 from src.summarizer.proposal import SummarizerClusters
 
 from .proposal.summarizer_clusters_semantic import SummarizerClustersSemantic
@@ -10,6 +11,7 @@ from .proposal.summarizer_clusters_semantic import SummarizerClustersSemantic
 from ..services.compare_service import insert_compare_dict
 from ..services.explanation_service import insert_explanation_dict
 from ..services.tries_service import insert_tries_dict
+from ..services.comment_service import insert_comment_dict
 
 from ..utils.bucket import read_numpy
 
@@ -87,5 +89,14 @@ def compare():
     data = request.json
 
     insert_compare_dict(data['compare'])
+
+    return {"message": "created"}, 201
+
+
+@summarizer_blueprint.route('/comment', methods=['POST'])
+def comment():
+    data = request.json
+
+    insert_comment_dict(data['comment'])
 
     return {"message": "created"}, 201
