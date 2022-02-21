@@ -14,9 +14,14 @@ class Explanation(Base):
     useful = Column(SmallInteger, nullable=False)
     preferences = Column(SmallInteger, nullable=False)
     levelFit = Column(SmallInteger, nullable=False)
+    levelUseful = Column(SmallInteger, nullable=False)
     created = Column(DateTime(timezone=True), default=func.now())
     
-    def __init__(self, user_id, movie_id, liked, understood, interest, useful, preferences, levelFit):
+    def __init__(
+        self, user_id, movie_id, liked, 
+        understood, interest, useful, 
+        preferences, levelFit, levelUseful
+        ):
         self.user_id = user_id
         self.movie_id = movie_id
         self.liked = liked
@@ -25,3 +30,4 @@ class Explanation(Base):
         self.useful = useful
         self.preferences = preferences
         self.levelFit = levelFit
+        self.levelUseful = levelUseful
