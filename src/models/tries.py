@@ -1,4 +1,4 @@
-from sqlalchemy import Column, DateTime, ForeignKey, Integer, SmallInteger, func
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, SmallInteger, String, func
 
 from ..utils.database import Base
 
@@ -9,9 +9,11 @@ class Tries(Base):
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     movie_id = Column(Integer, nullable=False)
     liked = Column(SmallInteger, nullable=False)
+    commentLiked = Column(String(255))
     created = Column(DateTime(timezone=True), default=func.now())
 
-    def __init__(self, user_id, movie_id, liked):
+    def __init__(self, user_id, movie_id, liked, commentLiked):
         self.user_id = user_id
         self.movie_id = movie_id
         self.liked = liked
+        self.commentLiked = commentLiked
