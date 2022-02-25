@@ -16,6 +16,10 @@ class Compare(Base):
     commentInterest = Column(String(255))
     preferences = Column(SmallInteger, nullable=False)
     commentPreferences = Column(String(255))
+    efficiency = Column(SmallInteger, nullable=False)
+    commentEfficiency = Column(String(255))
+    overload = Column(SmallInteger, nullable=False)
+    commentOverload = Column(String(255))
     created = Column(DateTime(timezone=True), default=func.now())
     
     def __init__(
@@ -23,7 +27,9 @@ class Compare(Base):
         understood, commentUnderstood, 
         useful, commentUseful, 
         interest, commentInterest, 
-        preferences, commentPreferences
+        preferences, commentPreferences,
+        efficiency, commentEfficiency,
+        overload, commentOverload
         ):
         self.user_id = user_id
         self.movie_id = movie_id
@@ -35,3 +41,7 @@ class Compare(Base):
         self.commentInterest = commentInterest
         self.preferences = preferences
         self.commentPreferences = commentPreferences
+        self.efficiency = efficiency
+        self.commentEfficiency = commentEfficiency
+        self.overload = overload
+        self.commentOverload = commentOverload
