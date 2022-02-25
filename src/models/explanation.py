@@ -1,4 +1,4 @@
-from sqlalchemy import Column, DateTime, Integer, SmallInteger, ForeignKey, String, func
+from sqlalchemy import JSON, Column, DateTime, Integer, SmallInteger, ForeignKey, String, func
 
 from ..utils.database import Base
 
@@ -9,6 +9,8 @@ class Explanation(Base):
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     movie_id = Column(Integer, nullable=False)
     liked = Column(SmallInteger, nullable=False)
+    n_clusters = Column(Integer, nullable=False)
+    explanationChange = Column(JSON)
     commentLiked = Column(String(255))
     understood = Column(SmallInteger, nullable=False)
     commentUnderstood = Column(String(255))
@@ -26,6 +28,7 @@ class Explanation(Base):
     
     def __init__(
         self, user_id, movie_id, 
+        n_clusters, explanationChange,
         liked, commentLiked, 
         understood, commentUnderstood, 
         interest, commentInterest, 
@@ -37,6 +40,8 @@ class Explanation(Base):
         self.user_id = user_id
         self.movie_id = movie_id
         self.liked = liked
+        self.n_clusters = n_clusters
+        self.explanationChange = explanationChange
         self.commentLiked = commentLiked
         self.understood = understood
         self.commentUnderstood = commentUnderstood
